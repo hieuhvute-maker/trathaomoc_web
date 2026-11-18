@@ -1038,9 +1038,11 @@
               </span>
             </div>
           </div>
+          {% if enable_online_shopping %}
           <div style="margin:16px 0;">
             <button type="button" class="btn-detail-link bp-add-cart-btn" data-add-to-cart="minh-hoang"><span class="vi">🛒 Thêm vào giỏ hàng</span><span class="en">🛒 Add to cart</span></button>
           </div>
+          {% endif %}
           <div class="badge-grid-4">
             <div class="spec-mini-badge">
               <strong><span class="vi">Thành phần</span><span class="en">Ingredients</span></strong>
@@ -1751,6 +1753,8 @@
       });
     });
   </script>
+  {% if enable_online_shopping %}
   <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+  {% endif %}
 </body>
 </html>

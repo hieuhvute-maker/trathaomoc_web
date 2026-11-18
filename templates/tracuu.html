@@ -1195,5 +1195,8 @@
       });
     }
   </script>
+  {% if enable_online_shopping %}
+  <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+  {% endif %}
 </body>
 </html>

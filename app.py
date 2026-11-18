@@ -8,6 +8,17 @@ import db
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "bachphuc-tea-secret-key-2026")
 
+@app.context_processor
+def inject_global_settings():
+    raw_val = db.db_get_setting("enable_online_shopping", False)
+    if isinstance(raw_val, str):
+        val = raw_val.lower() in ("true", "1", "yes")
+    else:
+        val = bool(raw_val)
+    return {
+        "enable_online_shopping": val
+    }
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -84,6 +95,19 @@ def thu_hai():
 def tra_cuu():
     return render_template("tracuu.html")
 
+@app.route("/giohang")
+def gio_hang():
+    raw_val = db.db_get_setting("enable_online_shopping", False)
+    is_enabled = raw_val.lower() in ("true", "1", "yes") if isinstance(raw_val, str) else bool(raw_val)
+    if not is_enabled:
+        flash("Tính năng mua hàng online hiện đang tạm đóng.", "info")
+        return redirect(url_for("dong_san_pham"))
+    thanh_toan = {
+        "cod": "Thanh toán khi nhận hàng (COD)",
+        "bank": "Chuyển khoản ngân hàng"
+    }
+    return render_template("giohang.html", thanh_toan=thanh_toan)
+
 @app.route("/lienhe", methods=["GET", "POST"])
 def lien_he():
     if request.method == "POST":
@@ -103,6 +127,7 @@ def lien_he():
 # ==================== 2. API TIẾP NHẬN YÊU CẦU & GIỎ HÀNG ====================
 
 @app.route("/api/consultation", methods=["POST"])
+@app.route("/api/yeucau", methods=["POST"])
 def api_consultation():
     """API lưu yêu cầu hướng dẫn sử dụng và tư vấn dòng trà vào CSDL."""
     data = request.get_json(silent=True) or request.form
@@ -144,9 +169,9 @@ def admin_login():
     if request.method == "POST":
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
-        # Kiểm tra qua DB hoặc tài khoản mặc định
-        if db.db_check_admin(username, password) or (username == "admin" and password == "123admin"):
+        if db.db_check_admin(username, password):
             session["admin"] = True
+            session["admin_username"] = username
             flash("Đăng nhập thành công!", "success")
             return redirect(url_for("admin_index"))
         flash("Sai tài khoản hoặc mật khẩu.", "danger")
@@ -155,8 +180,18 @@ def admin_login():
 @app.route("/admin/logout")
 def admin_logout():
     session.pop("admin", None)
+    session.pop("admin_username", None)
     flash("Bạn đã đăng xuất.", "info")
     return redirect(url_for("admin_login"))
+
+@app.route("/admin/settings", methods=["POST"])
+@login_required
+def admin_settings():
+    enable_val = True if request.form.get("enable_online_shopping") else False
+    db.db_set_setting("enable_online_shopping", enable_val)
+    status_label = "MỞ (Hiển thị giỏ hàng & nút mua)" if enable_val else "ĐÓNG (Ẩn toàn bộ nút mua & giỏ hàng)"
+    flash(f"Đã cập nhật cấu hình: Chức năng mua hàng online hiện đang {status_label}.", "success")
+    return redirect(url_for("admin_index"))
 
 @app.route("/admin")
 @login_required

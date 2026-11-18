@@ -22,6 +22,9 @@ _DB_AVAILABLE = False
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 
+DEFAULT_ADMIN_USER = "nguyendacdanh"
+DEFAULT_ADMIN_PASS = "BachPhuc@136"
+
 def _load_local_json(filename, default):
     path = os.path.join(DATA_DIR, filename)
     if os.path.exists(path):
@@ -63,6 +66,7 @@ def init_db(default_content=None):
     
     try:
         with conn.cursor() as cur:
+            # 1. Bảng lưu nội dung website (JSONB)
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS site_content (
                     key VARCHAR(50) PRIMARY KEY,
@@ -71,6 +75,7 @@ def init_db(default_content=None):
                 );
             """)
 
+            # 2. Bảng quản trị viên (Admin)
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS admin_users (
                     id SERIAL PRIMARY KEY,
@@ -80,6 +85,16 @@ def init_db(default_content=None):
                 );
             """)
 
+            # 3. Bảng cài đặt cấu hình (Settings - mua hàng online,...)
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS site_settings (
+                    key VARCHAR(50) PRIMARY KEY,
+                    value JSONB NOT NULL,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
+
+            # 4. Bảng yêu cầu hướng dẫn & tư vấn (Inquiries / Consultations)
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS consultations (
                     id SERIAL PRIMARY KEY,
@@ -93,6 +108,7 @@ def init_db(default_content=None):
                 );
             """)
 
+            # 5. Bảng đơn đặt hàng & giỏ hàng (Orders)
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS orders (
                     id SERIAL PRIMARY KEY,
@@ -108,13 +124,28 @@ def init_db(default_content=None):
                 );
             """)
 
-            cur.execute("SELECT id FROM admin_users WHERE username = 'admin';")
-            if not cur.fetchone():
+            # Cập nhật / tạo tài khoản admin nguyendacdanh
+            new_hash = generate_password_hash(DEFAULT_ADMIN_PASS)
+            cur.execute("SELECT id FROM admin_users WHERE username = %s;", (DEFAULT_ADMIN_USER,))
+            if cur.fetchone():
+                cur.execute(
+                    "UPDATE admin_users SET password_hash = %s WHERE username = %s;",
+                    (new_hash, DEFAULT_ADMIN_USER)
+                )
+            else:
                 cur.execute(
                     "INSERT INTO admin_users (username, password_hash) VALUES (%s, %s);",
-                    ("admin", generate_password_hash("123admin"))
+                    (DEFAULT_ADMIN_USER, new_hash)
                 )
 
+            # Cài đặt mặc định cho mua hàng online: mặc định bật True hoặc False
+            cur.execute("SELECT key FROM site_settings WHERE key = 'enable_online_shopping';")
+            if not cur.fetchone():
+                cur.execute(
+                    "INSERT INTO site_settings (key, value) VALUES ('enable_online_shopping', 'false'::jsonb);"
+                )
+
+            # Seed Site Content nếu chưa có
             cur.execute("SELECT key FROM site_content WHERE key = 'content';")
             if not cur.fetchone() and default_content:
                 cur.execute(
@@ -132,6 +163,51 @@ def init_db(default_content=None):
             conn.rollback()
             conn.close()
         return False
+
+# --- CÁC HÀM CÀI ĐẶT (SETTINGS) ---
+
+def db_get_setting(key, default=None):
+    conn = get_connection()
+    if conn:
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT value FROM site_settings WHERE key = %s;", (key,))
+                row = cur.fetchone()
+                if row:
+                    val = row["value"]
+                    return val if not isinstance(val, str) else json.loads(val)
+        except Exception as e:
+            logger.error(f"Lỗi db_get_setting: {e}")
+        finally:
+            conn.close()
+    
+    settings = _load_local_json("settings.json", {})
+    return settings.get(key, default)
+
+def db_set_setting(key, value):
+    settings = _load_local_json("settings.json", {})
+    settings[key] = value
+    _save_local_json("settings.json", settings)
+
+    conn = get_connection()
+    if not conn:
+        return True
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO site_settings (key, value, updated_at)
+                VALUES (%s, %s, CURRENT_TIMESTAMP)
+                ON CONFLICT (key) DO UPDATE
+                SET value = EXCLUDED.value, updated_at = CURRENT_TIMESTAMP;
+            """, (key, json.dumps(value)))
+        conn.commit()
+        return True
+    except Exception as e:
+        logger.error(f"Lỗi db_set_setting: {e}")
+        conn.rollback()
+        return False
+    finally:
+        conn.close()
 
 # --- CÁC HÀM XỬ LÝ NỘI DUNG (CMS) ---
 
@@ -190,7 +266,13 @@ def db_check_admin(username, password):
         finally:
             conn.close()
     
-    admin_data = _load_local_json("admin.json", {"username": "admin", "password_hash": generate_password_hash("123admin")})
+    admin_data = _load_local_json("admin.json", None)
+    if not admin_data or admin_data.get("username") != DEFAULT_ADMIN_USER:
+        admin_data = {
+            "username": DEFAULT_ADMIN_USER,
+            "password_hash": generate_password_hash(DEFAULT_ADMIN_PASS)
+        }
+        _save_local_json("admin.json", admin_data)
     if username == admin_data.get("username") and check_password_hash(admin_data.get("password_hash", ""), password):
         return True
     return False

@@ -962,5 +962,8 @@
     napMedia(null, "img-step-4", "placeholder-step-4", KHO_MEDIA_THU_HAI.imgStep4, false);
     napMedia(null, "img-step-5", "placeholder-step-5", KHO_MEDIA_THU_HAI.imgStep5, false);
   </script>
+  {% if enable_online_shopping %}
+  <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+  {% endif %}
 </body>
 </html>

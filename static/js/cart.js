@@ -1,4 +1,7 @@
 (function () {
+  if (typeof window.ENABLE_ONLINE_SHOPPING !== "undefined" && !window.ENABLE_ONLINE_SHOPPING) {
+    return;
+  }
   var KEY = "bachphuc_cart";
 
   function read() {

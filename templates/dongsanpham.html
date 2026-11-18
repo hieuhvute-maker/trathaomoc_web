@@ -1104,7 +1104,9 @@
             <span class="vi">📞 Tư&nbsp;Vấn &amp; Kết&nbsp;Nối: 0796&nbsp;674&nbsp;679</span>
             <span class="en">📞 Direct Consultation: 0796&nbsp;674&nbsp;679</span>
           </a>
+          {% if enable_online_shopping %}
           <button type="button" class="btn-detail-link bp-add-cart-btn" data-add-to-cart="thuong-hoang"><span class="vi">🛒 Thêm vào giỏ hàng</span><span class="en">🛒 Add to cart</span></button>
+          {% endif %}
           <a class="btn-detail-link" href="/dongsanpham/thuonghoang">
             <span class="vi">Xem Chi&nbsp;Tiết Thượng&nbsp;Hoàng</span>
             <span class="en">Explore Thuong&nbsp;Hoang</span>
@@ -1199,7 +1201,9 @@
             <span class="vi">📞 Tư&nbsp;Vấn &amp; Kết&nbsp;Nối: 0796&nbsp;674&nbsp;679</span>
             <span class="en">📞 Direct Consultation: 0796&nbsp;674&nbsp;679</span>
           </a>
+          {% if enable_online_shopping %}
           <button type="button" class="btn-detail-link bp-add-cart-btn" data-add-to-cart="kim-hoang"><span class="vi">🛒 Thêm vào giỏ hàng</span><span class="en">🛒 Add to cart</span></button>
+          {% endif %}
           <a class="btn-detail-link" href="/dongsanpham/kimhoang">
             <span class="vi">Xem Chi&nbsp;Tiết Kim&nbsp;Hoàng</span>
             <span class="en">Explore Kim&nbsp;Hoang</span>
@@ -1302,7 +1306,9 @@
             <span class="vi">📞 Tư&nbsp;Vấn &amp; Kết&nbsp;Nối: 0796&nbsp;674&nbsp;679</span>
             <span class="en">📞 Direct Consultation: 0796&nbsp;674&nbsp;679</span>
           </a>
+          {% if enable_online_shopping %}
           <button type="button" class="btn-detail-link bp-add-cart-btn" data-add-to-cart="minh-hoang"><span class="vi">🛒 Thêm vào giỏ hàng</span><span class="en">🛒 Add to cart</span></button>
+          {% endif %}
           <a class="btn-detail-link" href="/dongsanpham/minhhoang">
             <span class="vi">Xem Chi&nbsp;Tiết Minh&nbsp;Hoàng</span>
             <span class="en">Explore Minh&nbsp;Hoang</span>
@@ -1817,6 +1823,8 @@
       });
     });
   </script>
+  {% if enable_online_shopping %}
   <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+  {% endif %}
 </body>
 </html>
