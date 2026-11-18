@@ -11,7 +11,9 @@ Website **Trà Thảo Mộc Bách Phục** được phát triển và vận hàn
 - **Ngôn ngữ & Framework**: Python 3.11 + Flask Framework
 - **Giao diện (Frontend)**: Tinh gọn, chuẩn nhận diện Bách Phục, hỗ trợ song ngữ (Tiếng Việt & English), tối ưu hiển thị máy tính và điện thoại.
 - **Cơ sở dữ liệu**: **PostgreSQL 16** (quản lý trên nền tảng VibeHost, có tích hợp cơ chế Offline JSON Fallback để test máy nội bộ mượt mà).
+- **VibeHost Project ID**: `cmwljifwn0j3u0i5fzrkqiyeo`
 - **Kho mã nguồn (GitHub)**: [https://github.com/hieuhvute-maker/trathaomoc_web](https://github.com/hieuhvute-maker/trathaomoc_web)
+- **Thư mục dự án cục bộ**: `C:\Users\223041607\.gemini\antigravity\scratch\trathaomoc_web`
 - **Tên miền hoạt động**:
   - Tên miền chính thức: [https://trathaomocbachphuc.vn](https://trathaomocbachphuc.vn)
   - Tên miền triển khai trực tiếp VibeHost: [https://trathaomoc-web.n3.tinhgon.xyz](https://trathaomoc-web.n3.tinhgon.xyz)
@@ -80,9 +82,9 @@ Khi muốn thêm trang, đổi màu sắc, cập nhật giá hoặc bổ sung ch
 Antigravity sẽ tự động chạy thử app, kiểm tra logic form, kiểm tra giao diện để bảo đảm không phát sinh lỗi trước khi đẩy lên production.
 
 ### Bước 4: Tự động đồng bộ & Triển khai (Deploy)
-- Antigravity tự commit vào Git và push lên nhánh `main` của GitHub.
-- Tự động gọi tool `redeploy_project` của VibeHost.
-- Tự theo dõi tiến trình build cho đến khi đạt 100% và website hoạt động trở lại.
+- Antigravity tự commit vào Git và push lên nhánh `main` của GitHub: `git push origin main`.
+- Tự động gọi tool MCP VibeHost: `redeploy_project(projectId="cmwljifwn0j3u0i5fzrkqiyeo")`.
+- Tự gọi `wait_for_job` theo dõi tiến trình build cho đến khi đạt 100% (`state: succeeded`) và website hoạt động trở lại.
 
 ---
 
