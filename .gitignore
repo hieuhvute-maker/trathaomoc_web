@@ -6,5 +6,6 @@ __pycache__/
 venv/
 env/
 .env
+data/
 .DS_Store
 Thumbs.db

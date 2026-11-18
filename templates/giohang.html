@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ hàng | Trà Thảo Mộc Bách Phục</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f4f1ea; margin: 0; color: #222; }
+    .top-nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #2f4a2f; color: #fff; padding: 12px 24px; }
+    .top-nav-inner a.home { color: #fff; text-decoration: none; font-weight: 600; }
+    main { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+    h1 { font-size: 22px; color: #2f4a2f; }
+    .card { background: #fff; border-radius: 8px; padding: 18px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px 6px; border-bottom: 1px solid #eee; vertical-align: middle; }
+    th.num, td.num { text-align: right; }
+    .qty { display: inline-flex; align-items: center; gap: 6px; }
+    .qty button { width: 28px; height: 28px; border: 1px solid #bbb; background: #fff; border-radius: 4px; cursor: pointer; }
+    .qty span { min-width: 24px; text-align: center; }
+    .link-btn { background: none; border: 0; color: #b00020; cursor: pointer; font-size: 14px; }
+    .total { font-size: 18px; font-weight: 700; text-align: right; margin-top: 12px; }
+    .note { font-size: 13px; color: #666; margin-top: 6px; }
+    form.checkout label { display: block; margin-top: 12px; font-size: 14px; }
+    form.checkout input[type=text], form.checkout textarea { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #bbb; border-radius: 4px; margin-top: 4px; font: inherit; }
+    form.checkout .radio { display: block; margin-top: 6px; font-weight: normal; }
+    .submit { margin-top: 18px; padding: 12px 24px; background: #2f4a2f; color: #fff; border: 0; border-radius: 6px; font-size: 16px; cursor: pointer; }
+    .submit:disabled { background: #999; cursor: not-allowed; }
+    .status { margin-top: 12px; font-size: 15px; }
+    .status.ok { color: #2f6b2f; }
+    .status.err { color: #b00020; }
+    .empty { text-align: center; color: #666; padding: 30px 0; }
+    .back { display: inline-block; margin-top: 10px; color: #2f4a2f; }
+  </style>
+</head>
+<body>
+  <nav class="top-bilingual-nav" aria-label="Main Navigation">
+    <div class="top-nav-inner">
+      <a class="home" href="/trangchu">Bách Phục</a>
+      <a class="home" href="/dongsanpham">Sản phẩm</a>
+    </div>
+  </nav>
+
+  <main>
+    <h1>Giỏ hàng của bạn</h1>
+
+    <div class="card" id="cart-card">
+      <div id="cart-empty" class="empty" hidden>
+        Giỏ hàng đang trống.
+        <div><a class="back" href="/dongsanpham">← Quay lại trang sản phẩm</a></div>
+      </div>
+      <table id="cart-table" hidden>
+        <thead>
+          <tr><th>Sản phẩm</th><th>Đơn giá</th><th>Số lượng</th><th class="num">Thành tiền</th><th></th></tr>
+        </thead>
+        <tbody id="cart-body"></tbody>
+      </table>
+      <div class="total" id="cart-total" hidden></div>
+      <div class="note" id="cart-note" hidden></div>
+    </div>
+
+    <form class="card checkout" id="checkout-form" hidden>
+      <h2 style="font-size:17px; margin-top:0;">Thông tin nhận hàng</h2>
+      <label>Họ và tên *
+        <input type="text" name="name" maxlength="100" required>
+      </label>
+      <label>Số điện thoại *
+        <input type="text" name="phone" maxlength="20" required>
+      </label>
+      <label>Địa chỉ giao hàng *
+        <input type="text" name="address" maxlength="300" required>
+      </label>
+      <label>Ghi chú
+        <textarea name="ghi_chu" rows="3" maxlength="500"></textarea>
+      </label>
+      <label>Phương thức thanh toán *</label>
+      {% for key, label in thanh_toan.items() %}
+      <label class="radio">
+        <input type="radio" name="thanh_toan" value="{{ key }}" {% if loop.first %}checked{% endif %}> {{ label }}
+      </label>
+      {% endfor %}
+      <button class="submit" type="submit" id="submit-btn">Đặt hàng</button>
+    </form>
+    <div class="status" id="checkout-status" role="status"></div>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+  <script>
+    (function () {
+      var products = {};
+      var cartBody = document.getElementById("cart-body");
+      var cartTable = document.getElementById("cart-table");
+      var cartEmpty = document.getElementById("cart-empty");
+      var cartTotal = document.getElementById("cart-total");
+      var cartNote = document.getElementById("cart-note");
+      var form = document.getElementById("checkout-form");
+      var statusEl = document.getElementById("checkout-status");
+      var submitBtn = document.getElementById("submit-btn");
+
+      function money(n) {
+        return n.toLocaleString("vi-VN") + " đ";
+      }
+
+      function cell(text, cls) {
+        var td = document.createElement("td");
+        if (cls) td.className = cls;
+        td.textContent = text;
+        return td;
+      }
+
+      function render() {
+        var items = BPCart.get();
+        cartBody.textContent = "";
+        var hasItems = items.length > 0;
+        cartEmpty.hidden = hasItems;
+        cartTable.hidden = !hasItems;
+        cartTotal.hidden = !hasItems;
+        cartNote.hidden = !hasItems;
+        form.hidden = !hasItems;
+        if (!hasItems) return;
+
+        var total = 0;
+        var hasUnpriced = false;
+
+        items.forEach(function (it) {
+          var p = products[it.id] || { ten: it.id, gia: null };
+          var tr = document.createElement("tr");
+          tr.appendChild(cell(p.ten));
+          tr.appendChild(cell(p.gia === null ? "Chưa công bố" : money(p.gia)));
+
+          var tdQty = document.createElement("td");
+          var wrap = document.createElement("div");
+          wrap.className = "qty";
+          var minus = document.createElement("button");
+          minus.type = "button";
+          minus.textContent = "−";
+          minus.addEventListener("click", function () { BPCart.setQty(it.id, it.qty - 1); });
+          var num = document.createElement("span");
+          num.textContent = it.qty;
+          var plus = document.createElement("button");
+          plus.type = "button";
+          plus.textContent = "+";
+          plus.addEventListener("click", function () { BPCart.setQty(it.id, it.qty + 1); });
+          wrap.appendChild(minus);
+          wrap.appendChild(num);
+          wrap.appendChild(plus);
+          tdQty.appendChild(wrap);
+          tr.appendChild(tdQty);
+
+          if (p.gia === null) {
+            hasUnpriced = true;
+            tr.appendChild(cell("Chưa công bố", "num"));
+          } else {
+            total += p.gia * it.qty;
+            tr.appendChild(cell(money(p.gia * it.qty), "num"));
+          }
+
+          var tdDel = document.createElement("td");
+          var del = document.createElement("button");
+          del.type = "button";
+          del.className = "link-btn";
+          del.textContent = "Xóa";
+          del.addEventListener("click", function () { BPCart.setQty(it.id, 0); });
+          tdDel.appendChild(del);
+          tr.appendChild(tdDel);
+
+          cartBody.appendChild(tr);
+        });
+
+        cartTotal.textContent = "Tạm tính: " + money(total) + (hasUnpriced ? " + sản phẩm chưa công bố giá" : "");
+        cartNote.textContent = hasUnpriced
+          ? "Một số sản phẩm chưa công bố giá. Bộ phận tư vấn sẽ liên hệ báo giá trước khi xác nhận đơn."
+          : "";
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var fd = new FormData(form);
+        var payload = {
+          name: fd.get("name"),
+          phone: fd.get("phone"),
+          address: fd.get("address"),
+          ghi_chu: fd.get("ghi_chu"),
+          thanh_toan: fd.get("thanh_toan"),
+          items: BPCart.get(),
+        };
+        submitBtn.disabled = true;
+        statusEl.textContent = "Đang gửi đơn hàng...";
+        statusEl.className = "status";
+
+        fetch("/api/don-hang", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+          .then(function (res) {
+            if (res.ok && res.body.ok) {
+              BPCart.clear();
+              form.reset();
+              statusEl.className = "status ok";
+              statusEl.textContent = res.body.message + " (Mã đơn #" + res.body.order_id + ")";
+              render();
+            } else {
+              statusEl.className = "status err";
+              statusEl.textContent = res.body.message || "Có lỗi xảy ra, vui lòng thử lại.";
+            }
+          })
+          .catch(function () {
+            statusEl.className = "status err";
+            statusEl.textContent = "Không kết nối được máy chủ, vui lòng thử lại.";
+          })
+          .finally(function () {
+            submitBtn.disabled = false;
+          });
+      });
+
+      fetch("/api/san-pham")
+        .then(function (r) { return r.json(); })
+        .then(function (list) {
+          list.forEach(function (sp) { products[sp.id] = sp; });
+          render();
+        })
+        .catch(function () { render(); });
+
+      window.addEventListener("bpcart:change", render);
+      render();
+    })();
+  </script>
+</body>
+</html>
