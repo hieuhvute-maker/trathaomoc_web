@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hành Trình Thu Hái Nấm Linh Chi Rừng - Trà Thảo Mộc Bách Phục</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --espresso: #23120B;
+    --espresso-dark: #140702;
+    --wine-red: #5E1914;
+    --gold-primary: #C5A059;
+    --gold-light: #E6C786;
+    --gold-bright: #FFF2C8;
+    --cream-bg: #FAF6F0;
+    --card-bg: #FFFFFF;
+    --text-dark: #2C1A12;
+    --text-muted: #6E5A4F;
+    --border-warm: #E5DEC9;
+  }
+
+  html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* BỘ QUY CHUẨN TYPOGRAPHY: TRIỆT TIÊU DÃN CHỮ & LỖI RỚT CHỮ */
+  body, p, li, td, th, div {
+    text-align: left !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    -webkit-hyphens: none;
+    hyphens: none;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--cream-bg);
+    color: var(--text-dark);
+    line-height: 1.75;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ================= 1. BREADCRUMB ================= */
+  .breadcrumb-nav {
+    max-width: 1180px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .breadcrumb-nav a:hover { color: var(--wine-red); }
+  .breadcrumb-nav .sep { color: var(--gold-primary); font-size: 10px; }
+  .breadcrumb-nav .current { color: var(--espresso); font-weight: 600; }
+
+  /* ================= 2. BANNER ĐẦU TRANG PHÓNG SỰ ================= */
+  .harvest-hero {
+    position: relative;
+    width: 100%;
+    min-height: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px 46px;
+    background: radial-gradient(circle at 50% 30%, #30140A 0%, #160803 75%, #0B0301 100%) !important;
+    overflow: hidden;
+    margin-top: 14px;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% 28%, rgba(197, 160, 89, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .harvest-hero::before {
+    content: "";
+    position: absolute;
+    top: 14px; left: 14px; right: 14px; bottom: 14px;
+    border: 1px solid rgba(197, 160, 89, 0.28);
+    outline: 1px solid rgba(197, 160, 89, 0.1);
+    outline-offset: -5px;
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .hero-container {
+    position: relative;
+    z-index: 3;
+    max-width: 960px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-sub {
+    font-family: 'Inter', sans-serif;
+    color: var(--gold-light);
+    font-size: clamp(11.5px, 1.8vw, 13px);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+    opacity: 0.95;
+    text-align: center !important;
+  }
+
+  /* TIÊU ĐỀ: MÁY TÍNH LIỀN 1 HÀNG, MOBILE TÁCH 2 NHỊP HOÀN CHỈNH */
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(21px, 3.4vw, 36px);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: linear-gradient(115deg, #E6C786 0%, #FFF8E1 30%, #C5A059 60%, #FFF2C8 85%, #D4AF37 100%);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 3px 14px rgba(0, 0, 0, 0.65));
+    margin-bottom: 12px;
+    text-align: center !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .hero-title-part { display: inline; white-space: nowrap; }
+
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(16.5px, 2.4vw, 21px);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--gold-bright);
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    text-align: center !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tagline-part { display: inline; white-space: nowrap; }
+
+  .cor-hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 4px auto 16px;
+    width: 100%;
+    max-width: 280px;
+  }
+  .cor-hero-divider .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.6), transparent);
+  }
+  .cor-hero-divider .symbol {
+    color: var(--gold-primary);
+    font-size: 11px;
+  }
+
+  .hero-desc {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: #FAF4EB;
+    font-size: clamp(15.5px, 2.1vw, 19px);
+    max-width: 840px;
+    font-style: italic;
+    line-height: 1.72;
+    text-align: center !important;
+    padding: 0 16px;
+    text-wrap: balance;
+    opacity: 0.95;
+  }
+
+  /* ================= 2.1 DẢI XUẤT XỨ BẢN ĐỊA ================= */
+  .origin-ribbon {
+    background: linear-gradient(90deg, #150702 0%, #2A1107 50%, #150702 100%);
+    border-top: 1.5px solid rgba(197, 160, 89, 0.45);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+    padding: 14px 20px;
+    text-align: center;
+  }
+  .origin-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .origin-inner .symbol {
+    color: var(--gold-primary);
+    font-size: 13px;
+  }
+  .origin-text {
+    font-family: 'Inter', sans-serif;
+    color: var(--gold-bright);
+    font-size: clamp(12.5px, 1.9vw, 14.5px);
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-align: center !important;
+  }
+
+  /* ================= 3. KHUNG PHÓNG SỰ CHÍNH ================= */
+  .story-container {
+    max-width: 1180px;
+    margin: 40px auto 60px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .story-step-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-warm);
+    border-radius: 8px;
+    padding: 34px 30px;
+    box-shadow: 0 8px 24px rgba(35, 18, 11, 0.04);
+    position: relative;
+    scroll-margin-top: 30px;
+  }
+
+  .step-header {
+    border-bottom: 2px solid #F3EDE3;
+    padding-bottom: 12px;
+    margin-bottom: 22px;
+  }
+  .step-tag {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--wine-red);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .step-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(21px, 2.8vw, 26px);
+    color: var(--espresso);
+    line-height: 1.35;
+    text-wrap: balance;
+  }
+
+  .step-grid-2col {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .step-prose p {
+    font-size: 14.5px;
+    line-height: 1.78;
+    color: var(--text-dark);
+    margin-bottom: 14px;
+    text-wrap: pretty;
+  }
+  .step-prose p:last-child { margin-bottom: 0; }
+
+  .highlight-quote {
+    background: #FDFBF7;
+    border-left: 3px solid var(--gold-primary);
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 17.5px;
+    font-style: italic;
+    color: var(--espresso);
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  /* KHUNG MEDIA (HÌNH ẢNH / VIDEO CÓ CHÚ THÍCH) */
+  .media-box {
+    border-radius: 6px;
+    overflow: hidden;
+    background: #FAF7F2;
+    border: 1px solid var(--border-warm);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  }
+  .media-viewer {
+    width: 100%;
+    min-height: 280px;
+    background: radial-gradient(circle, #FDFBF8 0%, #F1ECE2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 12px;
+  }
+  .media-viewer img, .media-viewer video {
+    max-width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .media-placeholder {
+    width: 100%;
+    height: 250px;
+    border: 1.5px dashed var(--gold-primary);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background: rgba(197, 160, 89, 0.06);
+    color: var(--espresso);
+  }
+  .media-placeholder .icon { font-size: 26px; color: var(--gold-primary); margin-bottom: 6px; }
+  .media-placeholder .title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .media-placeholder .desc { font-size: 12.5px; color: var(--text-muted); max-width: 420px; line-height: 1.6; text-wrap: pretty; }
+
+  .media-caption {
+    padding: 10px 16px;
+    background: #F4EFE6;
+    border-top: 1px solid var(--border-warm);
+    font-size: 13px;
+    color: var(--text-dark);
+    font-style: italic;
+    text-align: center !important;
+  }
+
+  /* NGUYÊN TẮC "ĐẠO GIỮ RỪNG" (PHẦN III) */
+  .forest-code-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 18px;
+  }
+  .code-item {
+    background: #FAF7F2;
+    border: 1px solid var(--border-warm);
+    border-top: 3px solid var(--wine-red);
+    border-radius: 6px;
+    padding: 16px 14px;
+  }
+  .code-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--wine-red);
+    color: #FFF;
+    font-family: 'Playfair Display', serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .code-item h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 15.5px;
+    color: var(--espresso);
+    margin-bottom: 6px;
+  }
+  .code-item p {
+    font-size: 13.5px;
+    color: var(--text-dark);
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  /* PHẦN V: Ý NGHĨA SINH KẾ & HIẾU ĐỄ */
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .value-box {
+    background: #FAF7F2;
+    border: 1px solid var(--border-warm);
+    border-left: 3px solid var(--gold-primary);
+    border-radius: 0 6px 6px 0;
+    padding: 18px;
+  }
+  .value-box h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16.5px;
+    color: var(--espresso);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .value-box h4 span { color: var(--gold-primary); font-size: 12px; }
+  .value-box p {
+    font-size: 13.8px;
+    color: var(--text-dark);
+    line-height: 1.68;
+    text-wrap: pretty;
+  }
+
+  /* KHUYẾN CÁO PHÁP LÝ (DISCLAIMER CARD) */
+  .disclaimer-card {
+    background: #F8F4EE;
+    border: 1px solid #DFD6C6;
+    border-left: 4px solid var(--wine-red);
+    border-radius: 6px;
+    padding: 22px 26px;
+  }
+  .disclaimer-card h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16.5px;
+    color: var(--wine-red);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .disclaimer-card p {
+    font-size: 13.5px;
+    color: var(--text-dark);
+    line-height: 1.68;
+    margin-bottom: 8px;
+    text-wrap: pretty;
+  }
+  .disclaimer-card p:last-child { margin-bottom: 0; }
+
+  /* ================= 4. CHÂN TRANG ĐỒNG BỘ TOÀN HỆ THỐNG (CÓ MST: 4300901179) ================= */
+  .site-footer {
+    background-color: var(--espresso);
+    color: #D6C7B8;
+    border-top: 3px solid var(--gold-primary);
+    padding: 38px 20px 22px;
+  }
+  .footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1.3fr;
+    gap: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.25);
+  }
+  .footer-brand h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-light);
+    font-size: 18px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+  .footer-brand p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #C2B4A8;
+    margin-bottom: 8px;
+    text-wrap: pretty;
+  }
+  .footer-col h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-light);
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li {
+    margin-bottom: 7px;
+    font-size: 12.8px;
+    line-height: 1.55;
+    color: #D6C7B8;
+  }
+  .footer-col ul a {
+    color: #D6C7B8;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col ul a:hover { color: var(--gold-light); }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .contact-item .icon {
+    color: var(--gold-primary);
+    font-size: 12.5px;
+    line-height: 1.55;
+    flex-shrink: 0;
+  }
+  .contact-link {
+    color: var(--gold-bright) !important;
+    font-weight: 600;
+  }
+
+  .footer-disclaimer-wrap {
+    max-width: 1180px;
+    margin: 16px auto 0;
+    padding: 0 10px;
+    text-align: center;
+  }
+  .footer-disclaimer {
+    font-size: 11.8px;
+    color: #A99688;
+    font-style: italic;
+    line-height: 1.55;
+    text-align: center !important;
+    text-wrap: balance;
+  }
+  .footer-bottom {
+    max-width: 1180px;
+    margin: 10px auto 0;
+    text-align: center !important;
+    font-size: 11.5px;
+    color: #8C7B6E;
+  }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 960px) {
+    .step-grid-2col { grid-template-columns: 1fr; gap: 20px; }
+    .forest-code-grid { grid-template-columns: 1fr; }
+    .values-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 22px; }
+  }
+
+  @media (max-width: 640px) {
+    body { line-height: 1.65; }
+    .harvest-hero { padding: 44px 14px 36px; min-height: 340px; }
+    
+    /* TRÊN MOBILE: TIÊU ĐỀ & TAGLINE TÁCH NHỊP CHUẨN NGHĨA */
+    .hero-title {
+      flex-direction: column;
+      gap: 6px;
+    }
+    .hero-title-part {
+      display: block;
+    }
+    .hero-tagline {
+      flex-direction: column;
+      gap: 4px;
+    }
+    .tagline-part {
+      display: block;
+    }
+
+    .story-step-card, .disclaimer-card { padding: 22px 16px; }
+    .media-placeholder { height: 220px; padding: 14px; }
+    .media-caption { font-size: 12px; }
+    .origin-text { letter-spacing: 1.5px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 1. BREADCRUMB -->
+  <nav class="breadcrumb-nav">
+    <a href="/" target="_blank" rel="noopener noreferrer">Trang&nbsp;chủ</a>
+    <span class="sep">❖</span>
+    <span class="current">Hành&nbsp;trình thu&nbsp;hái</span>
+  </nav>
+
+  <!-- 2. BANNER ĐẦU TRANG PHÓNG SỰ -->
+  <header class="harvest-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-container">
+      <div class="hero-sub">Ký&nbsp;Sự Thực&nbsp;Địa Bách&nbsp;Phục</div>
+      
+      <!-- TIÊU ĐỀ: MÁY TÍNH LIỀN 1 HÀNG, MOBILE TÁCH 2 NHỊP HOÀN CHỈNH -->
+      <h1 class="hero-title">
+        <span class="hero-title-part">HÀNH TRÌNH DƯỚI TÁN</span>
+        <span class="hero-title-part">RỪNG GIÀ QUẢNG&nbsp;NGÃI</span>
+      </h1>
+
+      <div class="hero-tagline">
+        <span class="tagline-part">“Dấu Chân Thầm Lặng &amp;</span>
+        <span class="tagline-part">Đạo Giữ Rừng Tự&nbsp;Nhiên”</span>
+      </div>
+      
+      <div class="cor-hero-divider">
+        <span class="line"></span>
+        <span class="symbol">❖ ❖ ❖</span>
+        <span class="line"></span>
+      </div>
+
+      <p class="hero-desc">
+        Mỗi tai nấm Linh&nbsp;Chi Bách&nbsp;Phục không bắt đầu từ xưởng&nbsp;máy hay nông trại nhân&nbsp;tạo, mà khởi đầu từ những bước chân kiên&nbsp;định của thợ&nbsp;rừng bản&nbsp;địa, chiếc ba&nbsp;lô dã chiến bền bỉ và sự tôn kính sâu sắc trước mẹ thiên&nbsp;nhiên.
+      </p>
+    </div>
+  </header>
+
+  <!-- 2.1 DẢI XUẤT XỨ BẢN ĐỊA -->
+  <section class="origin-ribbon">
+    <div class="origin-inner">
+      <span class="symbol">❖</span>
+      <span class="origin-text">100% NẤM LINH&nbsp;CHI CHỌN&nbsp;LỌC DƯỚI TÁN RỪNG TỰ&nbsp;NHIÊN QUẢNG&nbsp;NGÃI</span>
+      <span class="symbol">❖</span>
+    </div>
+  </section>
+
+  <!-- 3. KHUNG PHÓNG SỰ 5 PHẦN -->
+  <main class="story-container">
+
+    <!-- PHẦN I: KHỞI HÀNH TỪ SƯƠNG SỚM -->
+    <article class="story-step-card" id="khoi-hanh">
+      <div class="step-header">
+        <span class="step-tag">Chặng 1 • Lúc 4h30 Sáng</span>
+        <h2 class="step-title">Khởi Hành Từ Sương Sớm &amp; Lòng Kính Ngưỡng Rừng&nbsp;Mẹ</h2>
+      </div>
+
+      <div class="step-grid-2col">
+        <div class="step-prose">
+          <p>
+            Chuyến tìm nấm của những người thợ&nbsp;rừng bản&nbsp;địa luôn bắt đầu khi mặt trời còn chưa ló dạng. Lúc 4–5 giờ sáng, khi bản làng vùng cao Quảng&nbsp;Ngãi còn chìm sâu trong làn sương mờ lạnh giá, ngọn đèn pin nhỏ đã bắt đầu soi rõ những con đường mòn quen thuộc dẫn vào cửa&nbsp;rừng.
+          </p>
+          <div class="highlight-quote">
+            “Rừng sâu cây gai chằng chịt, dây leo giăng khắp lối. Bước vào rừng chỉ có chiếc ba&nbsp;lô vải bền chắc nép gọn sau lưng mới giúp đôi chân linh hoạt luồn lách qua từng hốc đá, vạt&nbsp;gai.”
+          </div>
+          <p>
+            Hành trang của người đi rừng mộc mạc mà dạn dĩ: chiếc ba&nbsp;lô đi rừng bền bỉ ôm sát lưng, dụng cụ sơ chế bén ngọt dắt bên hông, đôi giày vải bám đá và một bi-đông nước suối. Trước khi vượt qua con suối đầu tiên tiến vào vùng đồi rừng được giao khoán, người đi rừng luôn giữ tâm thế thành kính, bước đi êm ái, xin phép rừng già chở che cho chuyến đi bình an, tìm được những tai nấm già tích tụ trọn vẹn dược khí đất&nbsp;trời.
+          </p>
+        </div>
+
+        <!-- VỊ TRÍ VIDEO / HÌNH ẢNH 1 -->
+        <div class="media-box">
+          <div class="media-viewer">
+            <video id="media-step-1" controls style="display:none;" poster="">
+              <source src="" type="video/mp4">
+            </video>
+            <img id="img-step-1" alt="Khởi hành vào rừng sớm" style="display:none;">
+            
+            <div class="media-placeholder" id="placeholder-step-1">
+              <span class="icon">🎬</span>
+              <span class="title">[VỊ TRÍ VIDEO / HÌNH ẢNH 1]</span>
+              <span class="desc">Video ngắn 15–20 giây (dạng loop) hoặc ảnh chụp phóng sự: Khung cảnh người đi rừng mang ba lô dã chiến bước đi trong sương sớm, ánh nắng bình minh le lói qua tán rừng già Quảng Ngãi.</span>
+            </div>
+          </div>
+          <div class="media-caption">
+            Khởi hành từ mờ sáng – Bước chân người đi rừng bản địa tiến vào rừng sâu với lòng tôn kính thiên&nbsp;nhiên.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PHẦN II: VƯỢT ĐỊA HÌNH HIỂM TRỞ & KINH NGHIỆM ĐỊNH VỊ -->
+    <article class="story-step-card" id="vuot-rung">
+      <div class="step-header">
+        <span class="step-tag">Chặng 2 • Dưới Vòm Tán Nguyên Sinh</span>
+        <h2 class="step-title">Vượt Suối Băng Đèo &amp; Kinh Nghiệm Định Vị Cây Gỗ Cổ&nbsp;Thụ</h2>
+      </div>
+
+      <div class="step-grid-2col">
+        <div class="step-prose">
+          <p>
+            Để chạm đến nơi nấm Linh&nbsp;Chi trú ngụ, người đi rừng phải vượt qua những ghềnh đá trơn trượt, leo ngược những con dốc đất dựng đứng phủ đầy rêu ẩm. Rừng tự nhiên Quảng&nbsp;Ngãi với mật độ thảm thực vật đa tầng rậm rạp thử thách sức bền và sự tập trung cao độ trong từng bước&nbsp;chân.
+          </p>
+          <p>
+            <strong>Tri thức định vị thân gỗ truyền đời:</strong> Nấm Linh&nbsp;Chi không mọc ngẫu nhiên. Người đi rừng nhiều năm kinh nghiệm chỉ cần nhìn hướng gió thổi, ngửi mùi ẩm của mùn đất và men theo những thung lũng kín gió để tìm dấu vết của các thân cây gỗ cổ thụ đã gãy đổ tự nhiên qua nhiều mùa mưa&nbsp;nắng.
+          </p>
+          <p>
+            Chỉ những thân gỗ rừng già tích tụ đủ độ mục ẩm, nằm dưới bóng râm mát mẻ quanh năm mới là môi trường hoàn hảo để mầm nấm Linh&nbsp;Chi sinh trưởng và chắt chiu tinh chất mộc bản đại&nbsp;ngàn.
+          </p>
+        </div>
+
+        <!-- VỊ TRÍ HÌNH ẢNH 2 -->
+        <div class="media-box">
+          <div class="media-viewer">
+            <img id="img-step-2" alt="Vượt địa hình rừng già hiểm trở" style="display:none;" onload="this.style.display='block'; document.getElementById('placeholder-step-2').style.display='none';">
+            <div class="media-placeholder" id="placeholder-step-2">
+              <span class="icon">📷</span>
+              <span class="title">[VỊ TRÍ HÌNH ẢNH 2]</span>
+              <span class="desc">Ảnh góc rộng (Wide-shot): Thợ rừng bản địa đang cẩn trọng băng qua dòng suối đá nguyên sinh rêu phong hoặc vách đá dựng đứng giữa rừng già hoang sơ.</span>
+            </div>
+          </div>
+          <div class="media-caption">
+            Hành trình gian nan vượt qua suối sâu, dốc đá trơn trượt để tìm về những thân gỗ cổ thụ ngã mục tự&nbsp;nhiên.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PHẦN III: KHOẢNH KHẮC GẶP NẤM & "ĐẠO GIỮ RỪNG" -->
+    <article class="story-step-card" id="dao-giu-rung">
+      <div class="step-header">
+        <span class="step-tag">Chặng 3 • Điểm Sáng Trọng Tâm</span>
+        <h2 class="step-title">Khoảnh Khắc Gặp Nấm &amp; "Đạo Giữ Rừng" Bất Di Bất&nbsp;Dịch</h2>
+      </div>
+
+      <div class="step-grid-2col">
+        <div class="step-prose">
+          <p>
+            Giữa sắc xanh bạt ngàn của rêu phong và lá mục ẩm ướt, một tai nấm Linh&nbsp;Chi rừng phát lộ mang sắc nâu cánh gián đanh sẫm hay sắc vàng hổ phách trầm ấm. Đó là khoảnh khắc hồi hộp và xúc động nhất của cả chuyến đi — một món quà quý giá mẹ thiên nhiên ban tặng cho người kiên&nbsp;trì.
+          </p>
+          <p>
+            Đối với Bách&nbsp;Phục, toàn bộ quá trình thu hái đều tuân thủ nghiêm ngặt <strong>Bản cam kết bảo vệ và khai thác lâm sản tự nhiên bền vững ký kết cùng chính quyền địa phương (UBND xã)</strong> và nguyên tắc <strong>“Đạo giữ rừng”</strong> truyền&nbsp;đời:
+          </p>
+          
+          <div class="forest-code-grid">
+            <div class="code-item">
+              <span class="code-num">1</span>
+              <h4>Chỉ Hái Nấm Trọn&nbsp;Tuổi</h4>
+              <p>Chỉ thu hái những tai nấm đã già đanh chắc, mép nấm sừng hóa hoàn toàn và đã hoàn tất chu kỳ phát tán bào tử nhân giống tự nhiên cho đại&nbsp;ngàn.</p>
+            </div>
+            <div class="code-item">
+              <span class="code-num">2</span>
+              <h4>Bảo Vệ Mầm Nấm&nbsp;Non</h4>
+              <p>Tuyệt đối không hái những mầm nấm non còn viền sinh trưởng. Chúng được giữ nguyên vẹn trên thân gỗ để tiếp tục lớn lên cho những mùa&nbsp;sau.</p>
+            </div>
+            <div class="code-item">
+              <span class="code-num">3</span>
+              <h4>Kỹ Thuật Cắt Mộc</h4>
+              <p>Khéo léo cắt ngang cuống nấm, để lại phần gốc bám chắc vào thớ gỗ, giữ gìn mạng lưới sợi nấm (hyphae) không bị tổn hại để tiếp tục tái&nbsp;sinh.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- VỊ TRÍ VIDEO / HÌNH ẢNH 3 -->
+        <div class="media-box">
+          <div class="media-viewer">
+            <video id="media-step-3" controls style="display:none;" poster="">
+              <source src="" type="video/mp4">
+            </video>
+            <img id="img-step-3" alt="Cận cảnh thu hái nấm Linh Chi rừng đúng kỹ thuật" style="display:none;">
+            
+            <div class="media-placeholder" id="placeholder-step-3">
+              <span class="icon">🎬</span>
+              <span class="title">[VỊ TRÍ VIDEO / HÌNH ẢNH 3 - TRỌNG TÂM]</span>
+              <span class="desc">Video cận cảnh (Close-up 10–15s) hoặc ảnh chụp sắc nét (Macro): Đôi bàn tay người đi rừng cẩn trọng cắt ngang tai nấm già trên thân gỗ mục phủ rêu, chừa lại phần cuống gốc nguyên vẹn.</span>
+            </div>
+          </div>
+          <div class="media-caption">
+            Khoảnh khắc thu hái tuân thủ Đạo giữ rừng: Chỉ thu hái tai nấm đã trọn tuổi dược tính, gìn giữ gốc rễ cho đại ngàn sinh&nbsp;sôi.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PHẦN IV: BẢO VỆ MỘC & CHUYẾN TRỞ VỀ -->
+    <article class="story-step-card" id="ve-ban">
+      <div class="step-header">
+        <span class="step-tag">Chặng 4 • Lúc Xế Chiều</span>
+        <h2 class="step-title">Gói Ghém Bảo Toàn Hoạt Chất &amp; Chuyến Trở Về&nbsp;Bản</h2>
+      </div>
+
+      <div class="step-grid-2col">
+        <div class="step-prose">
+          <p>
+            Trời xế chiều, khi những tia nắng cuối cùng tắt dần sau đỉnh núi, chiếc ba&nbsp;lô đi rừng trĩu nặng theo bước chân người trở về bản. Mỗi tai nấm rừng thu hái được đều được gói bọc cẩn thận bằng lớp vải mộc hoặc lá rừng thoáng khí đặt êm ái trong ngăn ba&nbsp;lô. Cách làm này giúp tai nấm không bị dập gãy thớ gỗ và giữ nguyên vẹn lớp phấn bào tử tự nhiên quý báu trên bề&nbsp;mặt.
+          </p>
+          <p>
+            Tại điểm tập kết, công đoạn kiểm tra và phân loại mộc bản bắt đầu:
+          </p>
+          <ul style="list-style:none; padding-left:0; margin-bottom:12px;">
+            <li style="padding-left:18px; position:relative; margin-bottom:6px; font-size:14.2px;">
+              <span style="position:absolute; left:0; color:var(--gold-primary);">❖</span>
+              Kiểm tra độ đanh chắc, thớ gỗ và hương thơm mộc đặc&nbsp;trưng.
+            </li>
+            <li style="padding-left:18px; position:relative; margin-bottom:6px; font-size:14.2px;">
+              <span style="position:absolute; left:0; color:var(--gold-primary);">❖</span>
+              Phân định từng sắc nấm tự nhiên (Hồng Chi, Hoàng Chi, Thanh Chi...) theo kinh nghiệm thảo dược cổ&nbsp;truyền.
+            </li>
+            <li style="padding-left:18px; position:relative; font-size:14.2px;">
+              <span style="position:absolute; left:0; color:var(--gold-primary);">❖</span>
+              Loại bỏ nghiêm ngặt những tai nấm bị sâu mọt hay ẩm ướt, chỉ giữ lại những cá thể nấm đạt phẩm cấp thượng hạng nhất đưa vào sơ chế sấy nhiệt&nbsp;thấp.
+            </li>
+          </ul>
+        </div>
+
+        <!-- VỊ TRÍ HÌNH ẢNH 4 -->
+        <div class="media-box">
+          <div class="media-viewer">
+            <img id="img-step-4" alt="Phân loại nấm Linh Chi rừng sau thu hái" style="display:none;" onload="this.style.display='block'; document.getElementById('placeholder-step-4').style.display='none';">
+            <div class="media-placeholder" id="placeholder-step-4">
+              <span class="icon">📷</span>
+              <span class="title">[VỊ TRÍ HÌNH ẢNH 4]</span>
+              <span class="desc">Ảnh tư liệu mộc mạc: Những tai nấm Linh Chi rừng vừa mang về còn vương bụi rừng già, được xếp ngay ngắn trên phên tre sạch sẽ để phân loại từng sắc nấm.</span>
+            </div>
+          </div>
+          <div class="media-caption">
+            Từng tai nấm rừng nguyên bản được kiểm tra độ đanh chắc và phân loại kỹ lưỡng ngay sau khi trở về&nbsp;bản.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PHẦN V: Ý NGHĨA NHÂN VĂN & TÂM HIẾU ĐỄ -->
+    <article class="story-step-card" id="sinh-ke">
+      <div class="step-header">
+        <span class="step-tag">Chặng 5 • Giá Trị Trường Tồn</span>
+        <h2 class="step-title">Sinh Kế Bền Vững Cho Bà Con &amp; Món Quà Hiếu Lễ Vẹn&nbsp;Tròn</h2>
+      </div>
+
+      <div class="step-grid-2col">
+        <div class="step-prose">
+          <p>
+            Mỗi hộp trà thảo mộc Bách&nbsp;Phục được trao đến tay người tiêu dùng mang một sứ mệnh kép: vừa chăm sóc sức khỏe cho đấng sinh thành, vừa lan tỏa giá trị sống nhân văn nơi núi rừng Quảng&nbsp;Ngãi.
+          </p>
+          
+          <div class="values-grid">
+            <div class="value-box">
+              <h4><span>❖</span> Sinh Kế Vùng Cao &amp; Pháp Lý Rừng</h4>
+              <p>Thông qua hợp đồng thu mua trực tiếp và bản cam kết với chính quyền địa phương, Bách&nbsp;Phục mang lại nguồn thu nhập tự hào, ổn định cho người đi rừng bản&nbsp;địa. Khi rừng già tạo ra giá trị bền vững, chính bà con là những người tiên phong bảo vệ từng thân gỗ mục và gìn giữ thảm rừng tự&nbsp;nhiên.</p>
+            </div>
+            <div class="value-box">
+              <h4><span>❖</span> Món Quà Hiếu Đễ Chân Thành</h4>
+              <p>Giọt mồ hôi của những chuyến lội suối băng rừng kết tinh cùng tri thức thảo mộc mộc bản, hóa thành tách trà thanh khiết gửi trao mẹ cha — để mỗi ngày trôi qua là một ngày <em>“Cha mẹ bình an, chúng con vững&nbsp;vàng”</em>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- VỊ TRÍ HÌNH ẢNH 5 -->
+        <div class="media-box">
+          <div class="media-viewer">
+            <img id="img-step-5" alt="Nụ cười thợ rừng bên những tai nấm già tuổi" style="display:none;" onload="this.style.display='block'; document.getElementById('placeholder-step-5').style.display='none';">
+            <div class="media-placeholder" id="placeholder-step-5">
+              <span class="icon">📷</span>
+              <span class="title">[VỊ TRÍ HÌNH ẢNH 5]</span>
+              <span class="desc">Ảnh chân dung giàu cảm xúc: Nụ cười mộc mạc, chất phác của người đi rừng bản địa bên chiếc ba lô dã chiến và những tai nấm rừng già đanh chắc, toát lên niềm tự hào gìn giữ rừng quê hương.</span>
+            </div>
+          </div>
+          <div class="media-caption">
+            Nụ cười mộc mạc của người gìn giữ rừng — Điểm tựa bền vững phía sau mỗi ấm trà thảo mộc Bách&nbsp;Phục.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- KHUYẾN CÁO PHÁP LÝ MINH BẠCH (DISCLAIMER) -->
+    <section class="disclaimer-card">
+      <h4><span>❖</span> Khuyến Cáo Minh Bạch Thông Tin &amp; Pháp Lý Rừng</h4>
+      <p>
+        Các dòng sản phẩm của Công ty TNHH Trà Thảo Mộc Bách&nbsp;Phục được chế biến từ 100% nấm Linh&nbsp;Chi rừng tự nhiên thu hái tại Quảng&nbsp;Ngãi theo quy chế cam kết khai thác bền vững và hợp đồng thu mua lâm sản minh bạch với người dân địa&nbsp;phương.
+      </p>
+      <p>
+        Sản phẩm là trà thảo mộc tự nhiên theo hồ sơ tự công bố, không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh. Website hoạt động nhằm mục đích chia sẻ văn hóa trà và kết nối tư vấn, không thực hiện giao dịch thương mại điện tử trực&nbsp;tuyến.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- 4. CHÂN TRANG ĐỒNG BỘ TOÀN HỆ THỐNG (CÓ MST: 4300901179) -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      
+      <!-- Cột 1: Thông tin pháp nhân & Triết lý -->
+      <div class="footer-brand">
+        <h3>CÔNG TY TNHH TRÀ THẢO MỘC BÁCH&nbsp;PHỤC</h3>
+        <p style="font-size:12.5px; color:#D6C7B8; margin-bottom:6px;">
+          <strong>Mã số doanh nghiệp (MST):</strong> 4300901179
+        </p>
+        <p>Chắt chiu từng tai nấm Linh&nbsp;Chi chọn lọc từ rừng già tự nhiên Quảng&nbsp;Ngãi thành những ấm trà túi lọc mộc thanh khiết. Đồng hành cùng nếp sống an dưỡng, giúp thân tâm an định, nâng đỡ thể trạng và mang lại sự an yên cho mỗi gia&nbsp;đình.</p>
+        <p style="color:var(--gold-light); font-family:'Playfair Display',serif; font-style:italic;">“Cha mẹ bình an, chúng con vững&nbsp;vàng.”</p>
+      </div>
+
+      <!-- Cột 2: Sản phẩm -->
+      <div class="footer-col">
+        <h4>Các Dòng Trà Thảo Mộc</h4>
+        <ul>
+          <li><a href="/DONGSANPHAM/THUONGHOANG" target="_blank" rel="noopener noreferrer">Bách Phục Thượng&nbsp;Hoàng</a></li>
+          <li><a href="/DONGSANPHAM/KIMHOANG" target="_blank" rel="noopener noreferrer">Bách Phục Kim&nbsp;Hoàng</a></li>
+          <li><a href="/DONGSANPHAM/MINHHOANG" target="_blank" rel="noopener noreferrer">Bách Phục Minh&nbsp;Hoàng</a></li>
+          <li style="margin-top:10px;"><a href="/DONGSANPHAM" target="_blank" rel="noopener noreferrer" style="color:var(--gold-primary);">← Danh mục dòng trà</a></li>
+        </ul>
+      </div>
+
+      <!-- Cột 3: Thông tin liên hệ -->
+      <div class="footer-col">
+        <h4>Thông Tin Kết Nối</h4>
+        <ul>
+          <li class="contact-item">
+            <span class="icon">📍</span>
+            <span><strong>Địa chỉ:</strong> 136 Mạc Đĩnh Chi, Phường Nghĩa Lộ, tỉnh Quảng&nbsp;Ngãi</span>
+          </li>
+          <li class="contact-item">
+            <span class="icon">📞</span>
+            <span><strong>Hotline & Zalo:</strong> <a class="contact-link" href="tel:0796674679">0796 674 679</a></span>
+          </li>
+          <li class="contact-item">
+            <span class="icon">🌐</span>
+            <span><strong>Website:</strong> <a href="/" target="_blank" rel="noopener noreferrer" style="color:#D6C7B8;">www.trathaomocbachphuc.vn</a></span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- KHUYẾN CÁO PHÁP LÝ & PHẠM VI WEBSITE -->
+    <div class="footer-disclaimer-wrap">
+      <p class="footer-disclaimer">* Lưu ý: Các sản phẩm của Trà Thảo Mộc Bách&nbsp;Phục là thức uống thảo mộc dưỡng sinh tự nhiên theo hồ sơ tự công bố, không phải là thuốc và không có tác dụng thay thế thuốc chữa&nbsp;bệnh. Website chỉ giới thiệu thông tin văn hóa trà và kết nối tư vấn, không giao dịch thương mại điện tử trực tuyến.</p>
+    </div>
+
+    <div class="footer-bottom">© Bản quyền thuộc về Công ty TNHH Trà Thảo Mộc Bách&nbsp;Phục. Bảo lưu mọi&nbsp;quyền.</div>
+  </footer>
+
+  <!-- ================= BẢNG QUẢN LÝ 5 LINK MEDIA PHÓNG SỰ ================= -->
+  <script>
+    const KHO_MEDIA_THU_HAI = {
+      mediaStep1: "", 
+      isVideoStep1: false,
+      imgStep2:   "", 
+      mediaStep3: "", 
+      isVideoStep3: false,
+      imgStep4:   "", 
+      imgStep5:   ""  
+    };
+
+    function napMedia(idVideo, idImg, idPlaceholder, linkMedia, isVideo) {
+      if (!linkMedia || linkMedia.trim() === "") return;
+
+      const placeholder = document.getElementById(idPlaceholder);
+      if (placeholder) placeholder.style.display = "none";
+
+      if (isVideo) {
+        const v = document.getElementById(idVideo);
+        if (v) {
+          const source = v.querySelector('source');
+          if (source) source.src = linkMedia;
+          v.load();
+          v.style.display = "block";
+        }
+      } else {
+        const img = document.getElementById(idImg);
+        if (img) {
+          img.src = linkMedia;
+          img.style.display = "block";
+        }
+      }
+    }
+
+    napMedia("media-step-1", "img-step-1", "placeholder-step-1", KHO_MEDIA_THU_HAI.mediaStep1, KHO_MEDIA_THU_HAI.isVideoStep1);
+    napMedia(null, "img-step-2", "placeholder-step-2", KHO_MEDIA_THU_HAI.imgStep2, false);
+    napMedia("media-step-3", "img-step-3", "placeholder-step-3", KHO_MEDIA_THU_HAI.mediaStep3, KHO_MEDIA_THU_HAI.isVideoStep3);
+    napMedia(null, "img-step-4", "placeholder-step-4", KHO_MEDIA_THU_HAI.imgStep4, false);
+    napMedia(null, "img-step-5", "placeholder-step-5", KHO_MEDIA_THU_HAI.imgStep5, false);
+  </script>
+</body>
+</html>

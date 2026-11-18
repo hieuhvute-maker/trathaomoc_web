@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tra Cứu & Xác Thực Mộc Bản - Trà Thảo Mộc Bách Phục</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    :root {
+      --burgundy-dark: #22070B;
+      --burgundy-main: #3A0D14;
+      --burgundy-soft: #541620;
+      --gold-primary: #C5A059;
+      --gold-light: #E8CFA0;
+      --gold-bright: #F7E5C2;
+      --kraft-bg: #FAF5EC;
+      --kraft-card: #F3E9D8;
+      --text-light: #FDFBF7;
+      --text-muted: #D7C4B2;
+      --text-dark: #2B1309;
+      --seal-red: #9E1B1B;
+      --green-verified: #236337;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--burgundy-dark);
+      color: var(--text-light);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.68;
+      overflow-x: hidden;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Tiện ích khóa cụm từ không bao giờ bị ngắt đôi xuống dòng */
+    .nowrap {
+      white-space: nowrap;
+    }
+
+    /* Cân bằng dòng tự động cho tiêu đề và đoạn văn */
+    h1, h2, h3, h4, .pillar-title, .cert-heading, .gift-quote, .footer-motto {
+      text-wrap: balance;
+    }
+
+    p, .hero-desc, .pillar-text, .spec-value, .retention-perk {
+      text-wrap: pretty;
+    }
+
+    /* ================= THANH ĐIỀU HƯỚNG CHỈ HIỆN TRÊN ĐIỆN THOẠI ================= */
+    .mobile-only-nav {
+      display: none; /* Ẩn hoàn toàn trên máy tính */
+      background: rgba(34, 7, 11, 0.98);
+      border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+      padding: 10px 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .mobile-nav-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .mobile-nav-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mobile-nav-scroll a {
+      flex-shrink: 0;
+      white-space: nowrap;
+      text-decoration: none;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      padding: 6px 13px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .mobile-nav-scroll a.sub-item {
+      background: rgba(197, 160, 89, 0.08);
+      border-style: dashed;
+      font-size: 12px;
+    }
+
+    .mobile-nav-scroll a.active,
+    .mobile-nav-scroll a:hover {
+      background: rgba(197, 160, 89, 0.24);
+      color: var(--gold-bright);
+      border-color: var(--gold-primary);
+      border-style: solid;
+    }
+
+    /* ================= HERO BANNER TRA CỨU ================= */
+    .hero-lookup {
+      text-align: center;
+      padding: 38px 16px 26px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .eyebrow-tag {
+      display: inline-block;
+      font-size: 11.5px;
+      letter-spacing: 2.6px;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      padding: 5px 18px;
+      border-radius: 30px;
+      margin-bottom: 14px;
+      font-weight: 600;
+      background: rgba(197, 160, 89, 0.08);
+      white-space: nowrap;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      line-height: 1.22;
+      margin-bottom: 12px;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 575px; /* Căn chuẩn để chia thành 2 dòng đều đặn, không rớt chữ lẻ */
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ================= KHUNG TRA CỨU TRUNG TÂM ================= */
+    .main-container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 16px 56px;
+    }
+
+    .lookup-box {
+      background: linear-gradient(155deg, var(--burgundy-main), #28080D);
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      border-radius: 14px;
+      padding: 26px 24px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+      margin-bottom: 24px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .code-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1.5px solid rgba(197, 160, 89, 0.5);
+      border-radius: 10px;
+      padding: 15px 18px;
+      color: var(--gold-bright);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .code-input:focus {
+      border-color: var(--gold-bright);
+      box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+    }
+
+    .code-input::placeholder {
+      color: rgba(215, 196, 178, 0.48);
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 400;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #E5C384, #B5893D);
+      color: #22070B;
+      border: none;
+      border-radius: 10px;
+      padding: 0 28px;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(197, 160, 89, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .helper-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(197, 160, 89, 0.22);
+    }
+
+    .btn-qr-scan {
+      background: rgba(197, 160, 89, 0.12);
+      border: 1px solid rgba(197, 160, 89, 0.45);
+      color: var(--gold-light);
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-qr-scan:hover {
+      background: rgba(197, 160, 89, 0.25);
+    }
+
+    .sample-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      width: 100%;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      color: var(--gold-light);
+      padding: 4px 11px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 11.5px;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    .chip:hover {
+      background: rgba(197, 160, 89, 0.25);
+    }
+
+    #qr-reader-wrap {
+      display: none;
+      margin-top: 16px;
+      background: #170407;
+      border: 1px solid var(--gold-primary);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    #qr-reader {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* ================= THÔNG BÁO TRẠNG THÁI ================= */
+    .status-alert {
+      display: none;
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin-bottom: 22px;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    .status-alert.loading {
+      background: rgba(197, 160, 89, 0.14);
+      border: 1px solid rgba(197, 160, 89, 0.45);
+      color: var(--gold-bright);
+    }
+
+    .status-alert.error {
+      background: rgba(158, 27, 27, 0.28);
+      border: 1px solid #E36464;
+      color: #FFD9D9;
+    }
+
+    .status-alert.success {
+      background: rgba(35, 99, 55, 0.35);
+      border: 1px solid #57B874;
+      color: #E3FFEC;
+    }
+
+    /* ================= TỜ CHỨNG THƯ MỘC BẢN ĐỘC BẢN ================= */
+    .certificate-paper {
+      display: none;
+      background: var(--kraft-bg);
+      color: var(--text-dark);
+      border: 2px solid var(--gold-primary);
+      border-radius: 14px;
+      padding: 38px 30px;
+      position: relative;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.65);
+      animation: fadeUp 0.45s ease-out;
+    }
+
+    .certificate-paper::before {
+      content: "";
+      position: absolute;
+      top: 10px; left: 10px; right: 10px; bottom: 10px;
+      border: 1px solid rgba(139, 90, 43, 0.3);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .red-seal {
+      position: absolute;
+      top: 26px;
+      right: 26px;
+      width: 82px;
+      height: 82px;
+      border: 2.5px solid var(--seal-red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--seal-red);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+      transform: rotate(-12deg);
+      background: rgba(158, 27, 27, 0.05);
+      box-shadow: inset 0 0 0 3px rgba(158, 27, 27, 0.16);
+      padding: 6px;
+      user-select: none;
+    }
+
+    .verified-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-verified);
+      color: #FFFFFF;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 30px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      white-space: nowrap;
+    }
+
+    .cert-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--burgundy-soft);
+      line-height: 1.25;
+      padding-right: 88px;
+      margin-bottom: 4px;
+    }
+
+    .cert-code-line {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #7D4E2D;
+      letter-spacing: 1px;
+      margin-bottom: 22px;
+    }
+
+    .spec-grid {
+      border-top: 1.5px solid rgba(139, 90, 43, 0.25);
+      margin-bottom: 24px;
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 11px 0;
+      border-bottom: 1px dashed rgba(139, 90, 43, 0.24);
+      font-size: 14.5px;
+      gap: 18px;
+    }
+
+    .spec-label {
+      color: #6B4C35;
+      font-weight: 600;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .spec-value {
+      color: #22070B;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    /* Khung Nhập Mã PIN Mở Khóa Sở Hữu */
+    .pin-unlock-box {
+      background: var(--kraft-card);
+      border: 1.5px dashed #8C5A2B;
+      border-radius: 12px;
+      padding: 22px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .pin-unlock-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: var(--burgundy-soft);
+      margin-bottom: 6px;
+    }
+
+    .pin-unlock-box p {
+      font-size: 13.5px;
+      color: #5A3E28;
+      max-width: 540px;
+      margin: 0 auto 14px;
+    }
+
+    .pin-form {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    .pin-input {
+      width: 145px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      padding: 10px 12px;
+      border: 1.5px solid #8C5A2B;
+      border-radius: 8px;
+      background: #FFFDF9;
+      color: var(--burgundy-soft);
+      outline: none;
+    }
+
+    .btn-unlock {
+      background: var(--burgundy-soft);
+      color: var(--gold-light);
+      border: 1px solid var(--gold-primary);
+      border-radius: 8px;
+      padding: 0 20px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-unlock:hover {
+      background: var(--burgundy-main);
+    }
+
+    /* Thiệp Chúc Tặng Độc Bản */
+    .gift-message-card {
+      display: none;
+      background: linear-gradient(135deg, #4A121A, #26070C);
+      color: var(--gold-bright);
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 12px;
+      padding: 22px 24px;
+      margin-bottom: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(34, 7, 11, 0.25);
+    }
+
+    .gift-eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2.2px;
+      color: var(--gold-primary);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .gift-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 21px;
+      line-height: 1.45;
+      color: #FFF8EB;
+    }
+
+    /* Khung Đặc Quyền Mua Tiếp (Retention) */
+    .retention-card {
+      display: none;
+      background: #EFE3CE;
+      border: 1.5px solid #C5A059;
+      border-radius: 12px;
+      padding: 22px;
+      margin-top: 12px;
+    }
+
+    .retention-header {
+      font-size: 12.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--burgundy-soft);
+      margin-bottom: 6px;
+    }
+
+    .retention-perk {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--green-verified);
+      margin-bottom: 16px;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn-reorder-zalo {
+      flex: 1.2;
+      min-width: 220px;
+      text-align: center;
+      background: var(--burgundy-soft);
+      color: var(--gold-bright);
+      text-decoration: none;
+      padding: 13px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13.5px;
+      border: 1px solid var(--gold-primary);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-reorder-zalo:hover {
+      background: var(--burgundy-main);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary-link {
+      flex: 1;
+      min-width: 190px;
+      text-align: center;
+      background: transparent;
+      color: var(--burgundy-soft);
+      text-decoration: none;
+      padding: 13px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13.5px;
+      border: 1.5px solid var(--burgundy-soft);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-secondary-link:hover {
+      background: rgba(84, 22, 32, 0.08);
+    }
+
+    /* ================= CAM KẾT 3 TRỤ CỘT BẢO CHỨNG ================= */
+    .trust-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .pillar-item {
+      background: rgba(58, 13, 20, 0.55);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 12px;
+      padding: 22px 18px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .pillar-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19.5px;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      white-space: nowrap;
+    }
+
+    .pillar-text {
+      font-size: 13px;
+      line-height: 1.62;
+      color: var(--text-muted);
+    }
+
+    /* ================= FOOTER ĐỒNG BỘ & ĐIỀU HƯỚNG NHANH ================= */
+    .site-footer {
+      border-top: 1px solid rgba(197, 160, 89, 0.25);
+      padding: 36px 20px;
+      text-align: center;
+      background: #190407;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .footer-motto {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: var(--gold-light);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+
+    .footer-group-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--text-muted);
+      margin: 12px 0 6px;
+    }
+
+    .footer-quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 16px;
+      margin-bottom: 10px;
+    }
+
+    .footer-quick-links a {
+      color: var(--gold-primary);
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .footer-quick-links a:hover {
+      color: var(--gold-bright);
+      text-decoration: underline;
+    }
+
+    /* KÍCH HOẠT THANH MENU & TỐI ƯU BỐ CỤC TRÊN ĐIỆN THOẠI */
+    @media (max-width: 768px) {
+      .mobile-only-nav {
+        display: block;
+      }
+      .hero-lookup {
+        padding-top: 26px;
+      }
+      .hero-title {
+        font-size: 30px;
+      }
+      .input-row {
+        flex-direction: column;
+      }
+      .btn-primary {
+        padding: 15px;
+      }
+      .certificate-paper {
+        padding: 28px 18px;
+      }
+      .cert-heading {
+        font-size: 23px;
+        padding-right: 72px;
+      }
+      .red-seal {
+        width: 66px;
+        height: 66px;
+        font-size: 9.5px;
+        top: 18px;
+        right: 16px;
+      }
+      .spec-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+      .spec-value {
+        text-align: left;
+      }
+      .trust-pillars {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- THANH ĐIỀU HƯỚNG CHỈ HIỆN TRÊN ĐIỆN THOẠI (Đồng bộ 100% đường dẫn chuẩn trathaomocbachphuc.vn) -->
+  <nav class="mobile-only-nav">
+    <div class="mobile-nav-scroll">
+      <a href="/trangchu" target="_blank" rel="noopener">Trang&nbsp;Chủ</a>
+      <a href="/tracuu" target="_blank" rel="noopener" class="active">Tra&nbsp;Cứu</a>
+      <a href="/dongsanpham" target="_blank" rel="noopener">Sản&nbsp;Phẩm</a>
+      <a href="/dongsanpham/thuonghoang" target="_blank" rel="noopener" class="sub-item">• Thượng&nbsp;Hoàng</a>
+      <a href="/dongsanpham/kimhoang" target="_blank" rel="noopener" class="sub-item">• Kim&nbsp;Hoàng</a>
+      <a href="/dongsanpham/minhhoang" target="_blank" rel="noopener" class="sub-item">• Minh&nbsp;Hoàng</a>
+      <a href="/tailieu" target="_blank" rel="noopener">Tài&nbsp;Liệu Chuyên&nbsp;Khảo</a>
+      <a href="/suckhoe" target="_blank" rel="noopener">Cơ&nbsp;Chế Tự&nbsp;Chữa&nbsp;Lành</a>
+      <a href="/suckhoe/noicanbang" target="_blank" rel="noopener" class="sub-item">• Nội&nbsp;Cân&nbsp;Bằng</a>
+      <a href="/suckhoe/tuchualanh" target="_blank" rel="noopener" class="sub-item">• Tự&nbsp;Chữa&nbsp;Lành</a>
+      <a href="/suckhoe/thichnghi" target="_blank" rel="noopener" class="sub-item">• Thích&nbsp;Nghi</a>
+      <a href="/suckhoe/nhipsinhhoc" target="_blank" rel="noopener" class="sub-item">• Nhịp&nbsp;Sinh&nbsp;Học</a>
+      <a href="/thuhai" target="_blank" rel="noopener">Thu&nbsp;Hái</a>
+      <a href="/lienhe" target="_blank" rel="noopener">Liên&nbsp;Hệ</a>
+    </div>
+  </nav>
+
+  <!-- TIÊU ĐỀ TRANG TRA CỨU (Đã căn chỉnh chống rớt chữ "riêng biệt") -->
+  <section class="hero-lookup">
+    <div class="eyebrow-tag">Bảo Chứng Độc&nbsp;Bản&nbsp;1-1</div>
+    <h1 class="hero-title">Tra&nbsp;Cứu &amp; Xác&nbsp;Thực Mộc&nbsp;Bản</h1>
+    <p class="hero-desc">
+      Mỗi hộp trà Bách&nbsp;Phục đều mang một mã định&nbsp;danh độc&nbsp;bản, lưu&nbsp;giữ trọn&nbsp;vẹn hành&nbsp;trình thu&nbsp;hái từ rừng&nbsp;già Quảng&nbsp;Ngãi, chỉ&nbsp;số kiểm&nbsp;nghiệm và tâm&nbsp;thư gửi&nbsp;trao riêng&nbsp;biệt.
+    </p>
+  </section>
+
+  <!-- KHUNG TÌM KIẾM & CHỨNG THƯ -->
+  <main class="main-container">
+    <div class="lookup-box">
+      <div class="input-row">
+        <input
+          type="text"
+          id="code-input"
+          class="code-input"
+          placeholder="Nhập mã định danh trên hộp trà (VD: TH26-001-K9M2)..."
+          autocomplete="off"
+        >
+        <button id="btn-lookup" class="btn-primary" onclick="lookupCode()">
+          Xác&nbsp;Thực Mộc&nbsp;Bản
+        </button>
+      </div>
+
+      <div class="helper-bar">
+        <button type="button" class="btn-qr-scan" onclick="toggleQrScanner()">
+          📷 Mở Camera Quét Mã&nbsp;QR Hộp&nbsp;Trà
+        </button>
+
+        <div class="sample-chips">
+          <span class="nowrap">Thử nghiệm nhanh:</span>
+          <span class="chip" onclick="quickTest('TH26-001-K9M2')">TH26-001-K9M2 (PIN:&nbsp;8392)</span>
+          <span class="chip" onclick="quickTest('KH26-001-R7V3')">KH26-001-R7V3 (PIN:&nbsp;9185)</span>
+          <span class="chip" onclick="quickTest('MH26-001-W2B9')">MH26-001-W2B9 (PIN:&nbsp;7799)</span>
+          <span class="chip" onclick="quickTest('TH26-004-M8C4')">TH26-004-M8C4 (Lưu&nbsp;kho)</span>
+        </div>
+      </div>
+
+      <div id="qr-reader-wrap">
+        <div id="qr-reader"></div>
+      </div>
+    </div>
+
+    <!-- Thông báo Trạng thái / Cảnh báo -->
+    <div id="status-alert" class="status-alert"></div>
+
+    <!-- TỜ CHỨNG THƯ MỘC BẢN -->
+    <section id="certificate-paper" class="certificate-paper">
+      <div class="red-seal">BÁCH&nbsp;PHỤC<br>BẢO&nbsp;CHỨNG<br>MỘC&nbsp;BẢN</div>
+
+      <div class="verified-pill">✔ Đã Xác&nbsp;Thực Chính&nbsp;Hãng Bách&nbsp;Phục</div>
+      <h2 class="cert-heading" id="ui-product">---</h2>
+      <div class="cert-code-line" id="ui-serial">MÃ ĐỘC&nbsp;BẢN: ---</div>
+
+      <div class="spec-grid">
+        <div class="spec-row">
+          <span class="spec-label">Thứ tự chế tác độc&nbsp;bản:</span>
+          <span class="spec-value" id="ui-order">---</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Vùng &amp; Đợt thu&nbsp;hái:</span>
+          <span class="spec-value" id="ui-harvest">---</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Thợ rừng / Nghệ&nbsp;nhân:</span>
+          <span class="spec-value" id="ui-worker">---</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Chỉ số kiểm&nbsp;nghiệm mẻ:</span>
+          <span class="spec-value" id="ui-lab">---</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Ngày đóng&nbsp;gói — Hạn thưởng&nbsp;trà:</span>
+          <span class="spec-value" id="ui-dates">---</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Lịch sử kích&nbsp;hoạt &amp; Tra&nbsp;cứu:</span>
+          <span class="spec-value" id="ui-activation">---</span>
+        </div>
+      </div>
+
+      <!-- CỔNG NHẬP MÃ PIN 4 SỐ BÊN TRONG HỘP TRÀ -->
+      <div id="pin-unlock-box" class="pin-unlock-box">
+        <h3>Kích&nbsp;Hoạt Sở&nbsp;Hữu Độc&nbsp;Bản &amp; Mở Thiệp Gửi&nbsp;Trao</h3>
+        <p>
+          Quý&nbsp;khách vui&nbsp;lòng nhập <strong>4&nbsp;số&nbsp;PIN bí&nbsp;mật</strong> bên trong hộp&nbsp;trà để xác&nbsp;nhận chủ&nbsp;sở&nbsp;hữu đầu&nbsp;tiên, mở tâm&nbsp;thư gửi&nbsp;tặng và nhận đặc&nbsp;quyền tri&nbsp;ân:
+        </p>
+        <div class="pin-form">
+          <input
+            type="password"
+            id="pin-input"
+            class="pin-input"
+            maxlength="4"
+            inputmode="numeric"
+            placeholder="••••"
+          >
+          <button id="btn-unlock" class="btn-unlock" onclick="activatePin()">
+            KÍCH&nbsp;HOẠT
+          </button>
+        </div>
+      </div>
+
+      <!-- THIỆP CHÚC TẶNG ĐỘC BẢN -->
+      <div id="gift-message-card" class="gift-message-card">
+        <div class="gift-eyebrow">✦ Tâm&nbsp;Thư Gửi&nbsp;Trao Riêng Hộp&nbsp;Trà&nbsp;Này ✦</div>
+        <div class="gift-quote" id="ui-blessing">---</div>
+      </div>
+
+      <!-- ĐẶC QUYỀN TRI ÂN KHÁCH QUEN & NÚT ĐẶT LẠI -->
+      <div id="retention-card" class="retention-card">
+        <div class="retention-header">Đặc&nbsp;Quyền Tri&nbsp;Ân Chủ&nbsp;Sở&nbsp;Hữu Mộc&nbsp;Bản</div>
+        <div class="retention-perk" id="ui-offer">---</div>
+        <div class="action-buttons">
+          <a id="zalo-reorder-btn" href="https://zalo.me/0987654321" target="_blank" rel="noopener" class="btn-reorder-zalo">
+            ĐẶT TIẾP LIỆU&nbsp;TRÌNH (NHẬN ƯU&nbsp;ĐÃI MÃ&nbsp;NÀY)
+          </a>
+          <a id="product-detail-btn" href="/tailieu" target="_blank" rel="noopener" class="btn-secondary-link">
+            NGHI&nbsp;THỨC 4&nbsp;BƯỚC THƯỞNG&nbsp;TRÀ
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 TRỤ CỘT BẢO CHỨNG BÁCH PHỤC (Đã tinh chỉnh độ dài & khóa từ ghép cuối câu) -->
+    <div class="trust-pillars">
+      <div class="pillar-item">
+        <div class="pillar-title">Định&nbsp;Danh Độc&nbsp;Bản&nbsp;1-1</div>
+        <p class="pillar-text">
+          Mỗi hộp&nbsp;trà sở&nbsp;hữu cặp Mã&nbsp;QR và Mã&nbsp;PIN 4&nbsp;số riêng&nbsp;biệt, chống sao&nbsp;chép và bảo&nbsp;vệ quyền&nbsp;sở&nbsp;hữu ngay từ lần mở&nbsp;hộp đầu&nbsp;tiên.
+        </p>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-title">Minh&nbsp;Bạch Hoạt&nbsp;Chất</div>
+        <p class="pillar-text">
+          Công&nbsp;khai minh&nbsp;bạch hàm&nbsp;lượng Polysaccharide hòa&nbsp;tan thực&nbsp;nghiệm (<span class="nowrap">0.967%</span>) cùng quy&nbsp;trình chế&nbsp;biến thảo&nbsp;mộc đa&nbsp;tầng chuẩn&nbsp;mực.
+        </p>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-title">Tri&nbsp;Ân Trọn Liệu&nbsp;Trình</div>
+        <p class="pillar-text">
+          Mỗi mã hộp&nbsp;trà sau khi kích&nbsp;hoạt đều được lưu&nbsp;trữ đặc&nbsp;quyền ưu&nbsp;đãi riêng khi Quý&nbsp;khách đặt tiếp liệu&nbsp;trình dưỡng&nbsp;thân.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER ĐỒNG BỘ ĐẦY ĐỦ CÁC MỤC CON CHUẨN -->
+  <footer class="site-footer">
+    <div class="footer-motto">“Mẹ&nbsp;Cha Bình&nbsp;An, Chúng&nbsp;Con Vững&nbsp;Vàng”</div>
+
+    <div class="footer-group-label">Tuyệt&nbsp;Phẩm &amp; Tra&nbsp;Cứu</div>
+    <div class="footer-quick-links">
+      <a href="/trangchu" target="_blank" rel="noopener">Trang&nbsp;Chủ</a>
+      <a href="/tracuu" target="_blank" rel="noopener">Tra&nbsp;Cứu Mộc&nbsp;Bản</a>
+      <a href="/dongsanpham" target="_blank" rel="noopener">Dòng Sản&nbsp;Phẩm</a>
+      <a href="/dongsanpham/thuonghoang" target="_blank" rel="noopener">Bách&nbsp;Phục Thượng&nbsp;Hoàng</a>
+      <a href="/dongsanpham/kimhoang" target="_blank" rel="noopener">Bách&nbsp;Phục Kim&nbsp;Hoàng</a>
+      <a href="/dongsanpham/minhhoang" target="_blank" rel="noopener">Bách&nbsp;Phục Minh&nbsp;Hoàng</a>
+    </div>
+
+    <div class="footer-group-label">Cơ&nbsp;Chế Tự&nbsp;Chữa&nbsp;Lành &amp; Chuyên&nbsp;Khảo</div>
+    <div class="footer-quick-links">
+      <a href="/suckhoe" target="_blank" rel="noopener">Tổng&nbsp;Quan Cơ&nbsp;Chế</a>
+      <a href="/suckhoe/noicanbang" target="_blank" rel="noopener">Nội&nbsp;Cân&nbsp;Bằng</a>
+      <a href="/suckhoe/tuchualanh" target="_blank" rel="noopener">Tự&nbsp;Chữa&nbsp;Lành</a>
+      <a href="/suckhoe/thichnghi" target="_blank" rel="noopener">Thích&nbsp;Nghi</a>
+      <a href="/suckhoe/nhipsinhhoc" target="_blank" rel="noopener">Nhịp&nbsp;Sinh&nbsp;Học</a>
+      <a href="/tailieu" target="_blank" rel="noopener">Tài&nbsp;Liệu Chuyên&nbsp;Khảo</a>
+      <a href="/thuhai" target="_blank" rel="noopener">Hành&nbsp;Trình Thu&nbsp;Hái</a>
+      <a href="/lienhe" target="_blank" rel="noopener">Liên&nbsp;Hệ</a>
+    </div>
+
+    <p style="margin-top: 12px;">CÔNG&nbsp;TY TNHH TRÀ&nbsp;THẢO&nbsp;MỘC BÁCH&nbsp;PHỤC • Quảng&nbsp;Ngãi, Việt&nbsp;Nam</p>
+  </footer>
+
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwHWK1tyyZVZnQ_-k32xUkJnpgsr2_SgWp8t4ye2FUDxsR-uEE3chx1p7woGe5le6gs/exec";
+    const SITE_BASE = "/";
+    const ZALO_PHONE = "0987654321";
+
+    let currentCode = "";
+    let html5QrScanner = null;
+    let scannerOpen = false;
+
+    // Hàm tự động khóa các cụm từ ghép tiếng Việt & nối 2 từ cuối câu bằng Non-Breaking Space (\u00A0)
+    // Đảm bảo dữ liệu tải về từ Google Sheets không bao giờ bị rớt 1 chữ cô đơn xuống dòng
+    function preventOrphanWords(str) {
+      if (!str) return "---";
+      let s = String(str).trim();
+
+      // Khóa các cụm từ thương hiệu & địa danh phổ biến
+      const compoundPhrases = [
+        ["Bách", "Phục"],
+        ["Thượng", "Hoàng"],
+        ["Kim", "Hoàng"],
+        ["Minh", "Hoàng"],
+        ["Quảng", "Ngãi"],
+        ["Cà", "Đăm"],
+        ["Trà", "Bồng"],
+        ["Linh", "Chi"],
+        ["Mã", "Đề"],
+        ["Thu", "Đông"],
+        ["người", "Cor"],
+        ["Hộp", "Gỗ"],
+        ["Độc", "bản"],
+        ["hòa", "tan"],
+        ["thường", "lạc"],
+        ["bình", "an"],
+        ["vững", "vàng"],
+        ["trường", "tồn"],
+        ["giai", "lão"],
+        ["dưỡng", "thân"],
+        ["liệu", "trình"],
+        ["mẫu", "thử"],
+        ["tiếp", "theo"],
+        ["kích", "hoạt"],
+        ["tra", "cứu"]
+      ];
+
+      compoundPhrases.forEach(([w1, w2]) => {
+        const regex = new RegExp(`\\b(${w1})\\s+(${w2})\\b`, "gi");
+        s = s.replace(regex, `$1\u00A0$2`);
+      });
+
+      // Luôn khóa 2 từ cuối cùng của câu lại với nhau để không bao giờ rớt 1 từ lẻ
+      s = s.replace(/\s+(\S+)$/, "\u00A0$1");
+      return s;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const codeInput = document.getElementById("code-input");
+      const pinInput = document.getElementById("pin-input");
+
+      codeInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") lookupCode();
+      });
+
+      pinInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") activatePin();
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      const urlCode = params.get("ma") || params.get("id");
+      if (urlCode) {
+        codeInput.value = extractCleanCode(urlCode);
+        lookupCode();
+      }
+    });
+
+    function extractCleanCode(rawText) {
+      let text = String(rawText || "").trim();
+      if (text.includes("ma=")) {
+        try {
+          const u = new URL(text);
+          return (u.searchParams.get("ma") || "").trim().toUpperCase();
+        } catch (e) {
+          const match = text.match(/[?&]ma=([^&]+)/i);
+          if (match) return decodeURIComponent(match[1]).trim().toUpperCase();
+        }
+      }
+      return text.toUpperCase();
+    }
+
+    function getProductPageUrl(code, productName) {
+      const upperCode = String(code || "").toUpperCase();
+      const upperName = String(productName || "").toUpperCase();
+      if (upperCode.startsWith("TH") || upperName.includes("THƯỢNG HOÀNG")) {
+        return `${SITE_BASE}/dongsanpham/thuonghoang`;
+      }
+      if (upperCode.startsWith("KH") || upperName.includes("KIM HOÀNG")) {
+        return `${SITE_BASE}/dongsanpham/kimhoang`;
+      }
+      if (upperCode.startsWith("MH") || upperName.includes("MINH HOÀNG")) {
+        return `${SITE_BASE}/dongsanpham/minhhoang`;
+      }
+      return `${SITE_BASE}/tailieu`;
+    }
+
+    function quickTest(sampleCode) {
+      document.getElementById("code-input").value = sampleCode;
+      document.getElementById("pin-input").value = "";
+      lookupCode();
+    }
+
+    function showStatus(msg, type = "loading") {
+      const el = document.getElementById("status-alert");
+      el.innerText = preventOrphanWords(msg);
+      el.className = "status-alert " + type;
+      el.style.display = "block";
+    }
+
+    function hideStatus() {
+      document.getElementById("status-alert").style.display = "none";
+    }
+
+    async function lookupCode() {
+      const rawInput = document.getElementById("code-input").value;
+      const code = extractCleanCode(rawInput);
+      document.getElementById("code-input").value = code;
+
+      const certEl = document.getElementById("certificate-paper");
+      const btn = document.getElementById("btn-lookup");
+
+      if (!code) {
+        certEl.style.display = "none";
+        showStatus("Quý khách vui lòng nhập mã xác thực in trên tem hộp trà.", "error");
+        return;
+      }
+
+      currentCode = code;
+      btn.disabled = true;
+      showStatus("Đang đối chiếu cơ sở dữ liệu Mộc Bản Bách Phục...", "loading");
+
+      try {
+        const response = await fetch(
+          `${WEB_APP_URL}?action=lookup&ma=${encodeURIComponent(code)}`,
+          { method: "GET", redirect: "follow" }
+        );
+        const result = await response.json();
+        btn.disabled = false;
+
+        if (result.status === "success") {
+          hideStatus();
+          renderCertificate(result.data, false);
+        } else {
+          certEl.style.display = "none";
+          showStatus(result.message || "Không tìm thấy mã hộp trà.", "error");
+        }
+      } catch (error) {
+        btn.disabled = false;
+        showStatus("Đang kết nối máy chủ xác thực. Quý khách vui lòng bấm kiểm tra lại sau giây lát.", "error");
+      }
+    }
+
+    async function activatePin() {
+      const pin = document.getElementById("pin-input").value.trim();
+      const btnUnlock = document.getElementById("btn-unlock");
+
+      if (!pin || pin.length < 4) {
+        showStatus("Quý khách vui lòng nhập đủ 4 số PIN bí mật bên trong hộp trà.", "error");
+        return;
+      }
+
+      btnUnlock.disabled = true;
+      showStatus("Đang xác thực mã PIN sở hữu độc bản...", "loading");
+
+      try {
+        const response = await fetch(
+          `${WEB_APP_URL}?action=activate&ma=${encodeURIComponent(currentCode)}&pin=${encodeURIComponent(pin)}`,
+          { method: "GET", redirect: "follow" }
+        );
+        const result = await response.json();
+        btnUnlock.disabled = false;
+
+        if (result.status === "activated") {
+          renderCertificate(result.data, true);
+          const msg = result.firstTimeNow
+            ? "✔ Chúc mừng Quý khách là chủ nhân đầu tiên kích hoạt hộp trà độc bản này! Tâm thư và đặc quyền tri ân đã được mở."
+            : "✔ Xác nhận mã PIN chủ sở hữu thành công! Tâm thư và đặc quyền của hộp trà đã được hiển thị.";
+          showStatus(msg, "success");
+        } else {
+          showStatus(result.message || "Mã PIN chưa chính xác.", "error");
+        }
+      } catch (error) {
+        btnUnlock.disabled = false;
+        showStatus("Không thể kết nối máy chủ khi xác thực PIN. Vui lòng thử lại.", "error");
+      }
+    }
+
+    function renderCertificate(d, pinUnlockedNow) {
+      const certEl = document.getElementById("certificate-paper");
+      certEl.style.display = "block";
+
+      document.getElementById("ui-product").innerText = preventOrphanWords(d.dongSanPham);
+      document.getElementById("ui-serial").innerText = `MÃ ĐỘC\u00A0BẢN: ${d.ma || currentCode}`;
+      document.getElementById("ui-order").innerText = preventOrphanWords(d.thuTuDocBan);
+      document.getElementById("ui-harvest").innerText = preventOrphanWords(d.vungThuHai);
+      document.getElementById("ui-worker").innerText = preventOrphanWords(d.thoRung);
+      document.getElementById("ui-lab").innerText = preventOrphanWords(d.chiSoKiemNghiem);
+      document.getElementById("ui-dates").innerText = `${d.ngayDongGoi || "---"} — ${d.hanThuongTra || "---"}`;
+
+      const activationInfo = d.daKichHoat
+        ? `Đã kích\u00A0hoạt (${d.thoiDiemKichHoat}) • Lượt tra\u00A0cứu thứ\u00A0${d.soLuotQuet}`
+        : `Chưa kích\u00A0hoạt sở\u00A0hữu • Lượt tra\u00A0cứu thứ\u00A0${d.soLuotQuet}`;
+      document.getElementById("ui-activation").innerText = activationInfo;
+
+      const pinBox = document.getElementById("pin-unlock-box");
+      const giftCard = document.getElementById("gift-message-card");
+      const retentionCard = document.getElementById("retention-card");
+
+      if (pinUnlockedNow) {
+        pinBox.style.display = "none";
+
+        if (d.loiChuc && d.loiChuc.trim() !== "") {
+          document.getElementById("ui-blessing").innerText = `“${preventOrphanWords(d.loiChuc.trim())}”`;
+          giftCard.style.display = "block";
+        } else {
+          giftCard.style.display = "none";
+        }
+
+        const offerText = d.uuDaiMuaTiep && d.uuDaiMuaTiep.trim() !== ""
+          ? d.uuDaiMuaTiep.trim()
+          : "Ưu đãi 10% tri ân chủ sở hữu khi đặt tiếp liệu trình Bách Phục";
+        document.getElementById("ui-offer").innerText = "🎁 " + preventOrphanWords(offerText);
+
+        const zaloMessage = encodeURIComponent(
+          `Chào Trà Thảo Mộc Bách Phục, tôi là chủ sở hữu hộp trà mã [${currentCode}] (${d.dongSanPham}), muốn đặt tiếp liệu trình và áp dụng ưu đãi tri ân của mã hộp này.`
+        );
+        document.getElementById("zalo-reorder-btn").href = `https://zalo.me/${ZALO_PHONE}?text=${zaloMessage}`;
+
+        const productBtn = document.getElementById("product-detail-btn");
+        productBtn.href = getProductPageUrl(currentCode, d.dongSanPham);
+
+        retentionCard.style.display = "block";
+      } else {
+        pinBox.style.display = "block";
+        giftCard.style.display = "none";
+        retentionCard.style.display = "none";
+      }
+    }
+
+    function toggleQrScanner() {
+      const wrap = document.getElementById("qr-reader-wrap");
+      if (scannerOpen) {
+        if (html5QrScanner) {
+          html5QrScanner.clear();
+        }
+        wrap.style.display = "none";
+        scannerOpen = false;
+        return;
+      }
+
+      wrap.style.display = "block";
+      scannerOpen = true;
+      html5QrScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 220 }, false);
+      html5QrScanner.render((decodedText) => {
+        const clean = extractCleanCode(decodedText);
+        document.getElementById("code-input").value = clean;
+        html5QrScanner.clear();
+        wrap.style.display = "none";
+        scannerOpen = false;
+        lookupCode();
+      });
+    }
+  </script>
+</body>
+</html>
